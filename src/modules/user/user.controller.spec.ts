@@ -10,7 +10,11 @@ describe('UserController', () => {
         id:Date.now(),
         ...dto
       }
-    }) 
+    }),
+    update:jest.fn((id , dto) => ({
+      id:1,
+      ...dto
+    })) 
   }
 
   beforeEach(async () => {
@@ -29,6 +33,14 @@ describe('UserController', () => {
     expect(controller.create({name:'jhon'})).toEqual({
       id:expect.any(Number),
       name:'jhon'
-    })
-  })
+    });
+  });
+  it('should update an user' , () => {
+    const dto = {name:'jhon'};
+    expect(controller.update('id' , dto)).toEqual({
+      id: 1,
+      ...dto
+    });
+    expect(mockUserService.update).toHaveBeenCalled();
+  });
 });
